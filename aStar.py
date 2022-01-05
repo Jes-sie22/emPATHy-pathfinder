@@ -1,4 +1,5 @@
 from types import GeneratorType
+import colorspy as colors
 import pygame
 import math
 from queue import PriorityQueue
@@ -13,18 +14,6 @@ WIDTH = 800
 WINDOW = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption('A* Path Finding Algorithm')
 
-# color palette CONSTANTS -> module?
-RED = (255,0,0)
-GREEN = (0,255,0)
-BLUE = (0,0,255)
-YELLOW = (255,255,0)
-WHITE = (255,255,255)
-BLACK = (0,0,0) 
-PURPLE = (128,0,128)
-ORANGE = (255,165,0)
-GREY = (128,128,128)
-TURQUOISE = (64,224,208)
-
 # class for the cubes of the grid
 class Node:
     def __init__(self,row,col,width,total_rows):
@@ -33,7 +22,7 @@ class Node:
         # coordinates by pixels
         self.x = row * width 
         self.y = col * width 
-        self.color = WHITE
+        self.color = colors.white
         self.neighbors = []
         self.width = width
         self.total_rows = total_rows
@@ -45,47 +34,47 @@ class Node:
     # IS METHODS - methods to identify the state of a block && update state of a block // returns : T or F
     # method which identifies blocks we are not looking at anymore == RED blocks
     def is_closed(self):
-        return self.color == RED
+        return self.color == colors.red
 
     # block is open for algorithm to look at
     def is_open(self):
-        return self.color == GREEN
+        return self.color == colors.green
     
     # block is a barrier
     def is_barrier(self):
-        return self.color == BLACK
+        return self.color == colors.black
 
     # start block
     def is_start(self):
-        return self.color == ORANGE
+        return self.color == colors.orange
 
     # end block
     def is_end(self):
-        return self.color == PURPLE
+        return self.color == colors.turquoise
     
     # reset
     def reset(self):
-        self.color = WHITE
+        self.color = colors.white
 
-    # MAKE METHODS - make blocks desired color
+    # MAKE METHODS - transform block color
     def make_closed(self):
-        self.color = RED
+        self.color = colors.red
     
     # open
     def make_open(self):
-        self.color = GREEN
+        self.color = colors.green
 
     def make_barrier(self):
-        self.color = BLACK
+        self.color = colors.black
 
     def make_start(self):
-        self.color = ORANGE
+        self.color = colors.orange
     
     def make_end(self):
-        self.color = TURQUOISE
+        self.color = colors.turquoise
     
     def make_path(self):
-        self.color = PURPLE
+        self.color = colors.purple
 
     # drawing the block
     def draw(self, window):
@@ -194,15 +183,15 @@ def draw_grid(window,rows,width):
     gap = width //rows
     # drawing horizontal lines 
     for i in range(rows):
-        pygame.draw.line(window, GREY,(0, i * gap),(width, i * gap))
+        pygame.draw.line(window, colors.gray,(0, i * gap),(width, i * gap))
         # drawing vertical lines
         for j in range(rows):
-            pygame.draw.line(window,GREY, (j*gap,0),(j*gap, width))
+            pygame.draw.line(window,colors.gray, (j*gap,0),(j*gap, width))
 
 # function to call drawing functions to DRAW FRESH CANVAS 
 def draw(window,grid,rows,width):
     # filling the screen with 1 color
-    window.fill(WHITE)
+    window.fill(colors.white)
     
     # calling function to draw indivdual blocks
     for row in grid:
