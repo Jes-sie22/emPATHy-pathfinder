@@ -101,11 +101,18 @@ class Node:
         return False
 
 
-# heuristic function in f(n)=h(n)+g(n) - manhattan distance
+# A* algo - heuristic function in f(n)=h(n)+g(n) - manhattan distance
 def h(p1,p2): # p1/p2 = (row,col) eg. p1 = (1,9) , x1= 1, y1=9
     x1,y1 = p1
     x2,y2 = p2 
     return abs(x1-x2) + abs(y1-y2) # abs turns negative to positive -> math symbol: ||
+
+# djikstras algo - function to get node with min cost from unvisited table
+def get_min_node(unvisited):
+    minValue= min(unvisited.values())
+    minNode = [spot for spot in unvisited if unvisited[spot] == minValue]
+    return minNode
+
 
 def reconstruct_path(previous, current, draw):
     while current in previous:
@@ -113,8 +120,9 @@ def reconstruct_path(previous, current, draw):
         current.make_path()
         draw()
 
-def algorithm(draw,grid,start,end):
-    # initializing variables 
+# A* pathfinding algorithm
+def aStarAlgo(draw,grid,start,end):
+    # initializing variables -> improvement use dict??
     count = 0 
     open_set = PriorityQueue() # get smallest element out first
     open_set.put((0, count,start))# append set
@@ -164,6 +172,55 @@ def algorithm(draw,grid,start,end):
 
 
     
+def dijkstraAlgo(draw,grid,start,end):
+    # initializing visited and unvisited tables -> dict
+
+    # WHY USE SETS INSTEAD OF DICT?
+    open_set = PriorityQueue() # for unvisited
+    open_set.put((0,start))# append set
+    previous_node = {}
+    # initialize costs for all nodes in cost dict
+    cost = {spot: float("inf") for row in grid for spot in row}
+    cost[start] = 0 # cost of start node = 0
+
+    open_set_hash = {start}
+    
+    while not open_set.empty(): # repeat the following steps until unvisited list is empty
+        print("while loop works")
+        # quit function 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        # get node with minnimum cost    from open_set or unvisted
+        current = open_set.get()[1] 
+
+        if current == end:
+            reconstruct_path(previous_node,end,draw)
+            end.make_end()
+            return True
+
+        # neighbors of current node
+        for neighbor in current.neighbors: # ga masuk for loop why?
+            print(neighbor)
+
+            temp_cost = cost[current] + 1
+
+            if temp_cost < cost[neighbor]:
+                print(temp_cost)
+                cost[neighbor] = temp_cost
+                previous_node[neighbor] = current # update previous node of neighbor
+
+                if neighbor not in open_set_hash:
+                    open_set.put((cost[neighbor], neighbor))
+                    open_set_hash.add(neighbor)
+                    neighbor.make_open() 
+        draw()
+
+        # remove current node from unvisited list?? and make red 
+        if current != start:
+            current.make_closed() # red
+    return False
 
 # function making the grid w 2d lists
 def make_grid(rows, width):
@@ -269,14 +326,22 @@ def main(window,width):
 
 
             if event.type == pygame.KEYDOWN: # KEYDOWN = did user press a key on keyboard
+                # get A* running
                 if event.key == pygame.K_SPACE and start and end: # start pathfinding algorithm when start and end blocks available
                     for row in grid:
                         for spot in row:
                             spot.update_neighbors(grid)
 
-
-                    algorithm(lambda: draw(window,grid,ROWS,width), grid, start, end) # lambda is an anonymous function - > to pass draw function as an argument to another function 
+                    aStarAlgo(lambda: draw(window,grid,ROWS,width), grid, start, end) # lambda is an anonymous function - > to pass draw function as an argument to another function 
                 
+                # get dijkstras running
+                if event.key == pygame.K_d and start and end:
+                    for row in grid:
+                        for spot in row:
+                            spot.update_neighbors(grid)
+                    dijkstraAlgo(lambda: draw(window,grid,ROWS,width),grid,start,end)
+
+
                 if event.key == pygame.K_c: # clear the screen
                     start = None
                     end = None
