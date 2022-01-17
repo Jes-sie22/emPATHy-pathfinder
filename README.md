@@ -1,5 +1,5 @@
 # emPATHy-pathfinder
-a pathfinding algorithm visualizer made with pygame, which shows users how two different algorithms calculate the shortest route from one point to another.
+a pathfinding algorithm visualizer made with pygame, which shows users how two different search algorithms calculate the shortest route from one point to another. made with empathy for students leanrning about pathfinding algorithms and aims to aid the understanding of search algorithms by visualization
 
 file directory:
 
