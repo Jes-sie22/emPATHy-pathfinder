@@ -15,3 +15,6 @@ nodeClass.py -> class for nodes/blocks/points
 
 video link: 
 https://youtu.be/6rY9SuoZrTo
+
+report link:
+https://1drv.ms/w/s!AimYj4tckoVmlw275czjZVZl8JH0?e=rmMxoy
