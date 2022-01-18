@@ -11,9 +11,6 @@ def reconstruct_path(previous, current, draw):
 
 # function for dijkstra's pathfinding algorithm 
 def dijkstraAlgo(draw,grid,start,end):
-    # initializing visited and unvisited tables -> dict
-
-    # WHY USE SETS INSTEAD OF DICT?
     open_set = PriorityQueue() # for unvisited
     open_set.put((0,start))# append set
     previous_node = {}
@@ -24,7 +21,6 @@ def dijkstraAlgo(draw,grid,start,end):
     open_set_hash = {start}
     
     while not open_set.empty(): # repeat the following steps until unvisited list is empty
-        
         # quit function 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -32,20 +28,16 @@ def dijkstraAlgo(draw,grid,start,end):
 
         # get node with minnimum cost  from open_set or unvisted
         current = open_set.get()[1] 
-
         if current == end:
             reconstruct_path(previous_node,end,draw)
             end.make_end()
             return True
 
         # neighbors of current node
-        for neighbor in current.neighbors: # ga masuk for loop why?
-            
-
+        for neighbor in current.neighbors: 
             temp_cost = cost[current] + 1
 
             if temp_cost < cost[neighbor]:
-                
                 cost[neighbor] = temp_cost
                 previous_node[neighbor] = current # update previous node of neighbor
 
@@ -54,7 +46,6 @@ def dijkstraAlgo(draw,grid,start,end):
                     open_set_hash.add(neighbor)
                     neighbor.make_open() 
         draw()
-
         # remove current node from unvisited list?? and make red 
         if current != start:
             current.make_closed() # red

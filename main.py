@@ -1,25 +1,18 @@
 import imp
 import pygame
 import colorspy as colors
-import math
 from queue import PriorityQueue
 from nodeClass import Node # node objects to change color
 from gridFunctions import * # drawing grid on window functions
 from djikstras import *
 from aStarReal import *
-from stopwatchClass import Application
-
 
 # pygame setup
 pygame.init()
+
 WIDTH = 800
 WINDOW = pygame.display.set_mode((WIDTH, WIDTH))
-pygame.display.set_caption('A* Path Finding Algorithm')
-
-# fonts optional
-font15 = pygame.font.SysFont("Arial", 15)
-font30 = pygame.font.SysFont("Arial", 30)
- 
+pygame.display.set_caption('em-PATH-y pathfinding algrorithm visualizer')
 
 # function to take mouse position and return which block on grid its on 
 def get_clicked_position(mouse_pos,rows,width):
@@ -52,6 +45,7 @@ def main(window,width):
             # user clicks quit
             if event.type == pygame.QUIT:
                 run = False
+                pygame.quit()
 
             # mouse actions
             if pygame.mouse.get_pressed()[0]: # index 0 is LEFT CLICK
@@ -89,18 +83,21 @@ def main(window,width):
             if event.type == pygame.KEYDOWN: # KEYDOWN = did user press a key on keyboard
                 
                 # get A* running
-                if event.key == pygame.K_SPACE and start and end: # start pathfinding algorithm when start and end blocks available
+                if event.key == pygame.K_a and start and end: # start pathfinding algorithm when start and end blocks available
                     for row in grid:
                         for spot in row:
                             spot.update_neighbors(grid)
-
-                    aStarAlgo(lambda: draw(window,grid,ROWS,width), grid, start, end) # lambda is an anonymous function - > to pass draw function as an argument to another function 
+                    
+                    
+                    aStarAlgo(lambda: draw(window,grid,ROWS,width), grid, start, end) 
+                    # lambda is an anonymous function - > to pass draw function as an argument to another function 
                 
                 # get dijkstras running
                 if event.key == pygame.K_d and start and end:
                     for row in grid:
                         for spot in row:
                             spot.update_neighbors(grid)
+                            
                     dijkstraAlgo(lambda: draw(window,grid,ROWS,width),grid,start,end)
 
 
@@ -110,9 +107,6 @@ def main(window,width):
                     grid = make_grid(ROWS, width)
 
     
-
-
-    pygame.quit()
 
 main(WINDOW,WIDTH)
 

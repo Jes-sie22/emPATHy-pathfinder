@@ -2,7 +2,6 @@ import pygame
 from queue import PriorityQueue
 from djikstras import reconstruct_path
 
-
 # A* algo - heuristic function in f(n)=h(n)+g(n) - manhattan distance
 def h(p1,p2): # p1/p2 = (row,col) eg. p1 = (1,9) , x1= 1, y1=9
     x1,y1 = p1
@@ -51,13 +50,11 @@ def aStarAlgo(draw,grid,start,end):
                     open_set.put((f_score[neighbor],count, neighbor))
                     open_set_hash.add(neighbor)
                     neighbor.make_open()
-
-        draw()
-
+        draw()    
+                
         # close of / remove from unvisited list current node
         if current != start :
             current.make_closed()
-
-    
-    
+        
+        
     return False

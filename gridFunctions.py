@@ -1,7 +1,8 @@
 import colorspy as colors
 import pygame 
 from nodeClass import Node
-# function making the grid w 2d lists
+
+# making the grid w 2d lists
 def make_grid(rows, width):
     grid = []
     gap = width // rows # gap = insides of square 
@@ -29,10 +30,10 @@ def draw(window,grid,rows,width):
     # filling the screen with 1 color
     window.fill(colors.white)
     
-    # calling function to draw indivdual blocks
+    # # calling method on individual blocks to draw 
     for row in grid:
         for spot in row:
-            spot.draw(window)  # calling method on individual blocks to draw # loop thoorugh rows and grid to draw all the spots
+            spot.draw(window) 
 
     # calling function to draw gridlines 
     draw_grid(window,rows,width)
